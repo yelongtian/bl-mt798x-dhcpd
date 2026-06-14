@@ -36,6 +36,13 @@
 			mtdparts = "nmbm0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),116736k(ubi)";
 		};
 
+		layout@2 {
+			label = "122m";
+			// mtd layout for full 128m nand flash usage
+			mtdids = "nmbm0=nmbm0";
+			mtdparts = "nmbm0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),125184k(ubi)";
+		};
+
 	};
 
 	gpio-keys {

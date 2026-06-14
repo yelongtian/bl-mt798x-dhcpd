@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0
 
 /dts-v1/;
-#include "../../mt7981.dtsi"
+#include "mt7981.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
-	model = "mt7981-honor_fur-602";
+	model = "mt7981-honor_fur-602-512m-256m";
 	compatible = "mediatek,mt7981", "mediatek,mt7981-rfb";
 
 	chosen {
@@ -24,23 +24,23 @@
 	mtd-layout {
 		layout@0 {
 			label = "default";
-			// mtd layout for stock 64m ubi firmware
-			mtdids = "spi-nand0=spi-nand0";
-			mtdparts = "spi-nand0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),65536k(ubi),128k(Tracebak),51200k(foxfs)";
+			// mtd layout for stock 64m ubi firmware (256m nand)
+			mtdids = "nmbm0=nmbm0";
+			mtdparts = "nmbm0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),65536k(ubi),128k(Tracebak),51200k(foxfs)";
 		};
 
 		layout@1 {
 			label = "expand(114m)";
 			// mtd layout for 114m ubi firmware
-			mtdids = "spi-nand0=spi-nand0";
-			mtdparts = "spi-nand0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),116736k(ubi)";
+			mtdids = "nmbm0=nmbm0";
+			mtdparts = "nmbm0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),116736k(ubi)";
 		};
 
 		layout@2 {
-			label = "122m";
-			// mtd layout for full 128m nand flash usage
-			mtdids = "spi-nand0=spi-nand0";
-			mtdparts = "spi-nand0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),125184k(ubi)";
+			label = "245m";
+			// mtd layout for full 256m nand flash usage
+			mtdids = "nmbm0=nmbm0";
+			mtdparts = "nmbm0:1024k(bl2),512k(u-boot-env),1920k(factory),128k(Trace),2048k(fip),250880k(ubi)";
 		};
 
 	};
@@ -76,7 +76,7 @@
 	};
 	memory@40000000 {
 		device_type = "memory";
-		reg = <0x40000000 0x10000000>;
+		reg = <0x40000000 0x20000000>;
 	};
 
 	bl2_verify {

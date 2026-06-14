@@ -9,13 +9,14 @@ on:
         type: boolean
         default: false
       device_size:
-        description: '设备容量: 128 或 256 (MB)'
+        description: '设备容量: 128 / 256 / 512m-256m'
         required: true
         type: choice
         default: '128'
         options:
           - '128'
           - '256'
+          - '512m-256m'
       multi_layout:
         description: '是否编译多分区版本 (Multi-layout)'
         required: false
@@ -76,7 +77,9 @@ jobs:
         run: |
           cd ./wrt/
           # Choose board based on selected device size
-          if [ "${WRT_DEVICE}" = "256" ]; then BOARD=cudy_tr3000-v1-256mb; else BOARD=cudy_tr3000-v1; fi
+          if [ "${WRT_DEVICE}" = "256" ]; then BOARD=cudy_tr3000-v1-256mb;
+          elif [ "${WRT_DEVICE}" = "512m-256m" ]; then BOARD=honor_fur-602-512m-256m;
+          else BOARD=cudy_tr3000-v1; fi
           # MULTI_LAYOUT is set to 1 when multi-layout selected, otherwise 0
           SOC=mt7981 BOARD=$BOARD VERSION=2025 MULTI_LAYOUT=$WRT_MULTI ./build.sh
 
@@ -96,7 +99,9 @@ jobs:
         run: |
           DEVICE="${{ github.event.inputs.device_size }}"
           MULTI_LAYOUT_FLAG="${{ github.event.inputs.multi_layout }}"
-          if [ "$DEVICE" = "256" ]; then DEVICE_NAME="256M"; else DEVICE_NAME="128M"; fi
+          if [ "$DEVICE" = "256" ]; then DEVICE_NAME="256M";
+          elif [ "$DEVICE" = "512m-256m" ]; then DEVICE_NAME="512M-256M";
+          else DEVICE_NAME="128M"; fi
           if [ "$MULTI_LAYOUT_FLAG" = "true" ]; then ML_FLAG="Yes"; ML_SHORT="multi"; else ML_FLAG="No"; ML_SHORT="single"; fi
           FIRMWARE_NAME="uboot-${DEVICE_NAME}-${ML_SHORT}"
           BUILD_TIME=$(date +"%Y%m%d-%H%M")
